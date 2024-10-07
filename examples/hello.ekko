@@ -1,0 +1,4 @@
+process Greeter do
+  print "Hello, world!";
+  commit;
+end

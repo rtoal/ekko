@@ -1,0 +1,10 @@
+process P do
+  x = 1;
+  x = 5;
+  print x;
+  back 1;     // undoes the print
+  x = x + 1;  // x is now 2
+  back 2;     // undoes the increment and the x = 5;
+  print x;    // prints 1
+  commit;     // writes the print 1 to the global output state
+end
