@@ -4,6 +4,18 @@ Ekko is experimental language with simple time travel.
 
 ```
 process P do
+  x := 3;
+  y := 2 * x;
+  loop t times do
+    y := y + 1;
+    print y;
+  end
+  back 3;
+  z := y ** 2;
+  print z;
+  commit;
+  back 1;
+  print y;
 end
 ```
 
