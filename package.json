@@ -1,0 +1,20 @@
+{
+  "name": "ekko",
+  "version": "1.0.0",
+  "description": "Ekko is experimental language with simple time travel.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/**/*.js"
+  },
+  "keywords": [
+    "time travel",
+    "compiler",
+    "experimental"
+  ],
+  "author": "rtoal",
+  "license": "ISC",
+  "dependencies": {
+    "ohm-js": "^17.1.0"
+  }
+}
