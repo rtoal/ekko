@@ -4,7 +4,7 @@ process P do
   commit
 end
 
-process Q do
+process Q [x] do
   x = 5;
   receive x from P;
   print "Q received " + x;

@@ -3,7 +3,7 @@
 Ekko is experimental language with simple time travel.
 
 ```
-process P do
+process P [x, y, z] do
   x := 3;
   y := 2 * x;
   loop 7 times do

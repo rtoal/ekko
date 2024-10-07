@@ -1,4 +1,4 @@
-process P do
+process P [x] do
   x = 1;
   x = 5;
   print x;
