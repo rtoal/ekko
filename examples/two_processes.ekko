@@ -1,0 +1,12 @@
+process P do
+  send 1 to Q;
+  print "Hello from P";
+  commit
+end
+
+process Q do
+  x = 5;
+  receive x from P;
+  print "Q received " + x;
+  commit
+end

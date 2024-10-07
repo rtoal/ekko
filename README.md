@@ -14,7 +14,7 @@ process P do
   if true then
     z := y ** 2;
   end
-  send Q, z;
+  send z to Q;
   print z;
   commit;
   y := 100;
