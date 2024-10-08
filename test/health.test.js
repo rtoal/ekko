@@ -1,5 +1,5 @@
 import { describe, it } from "node:test"
-import { deepEqual, throws, rejects } from "node:assert/strict"
+import { deepEqual } from "node:assert/strict"
 
 describe("The compiler", () => {
   it("is alive", () => {
