@@ -1,18 +1,20 @@
 Ekko {
   Program   = Process+
   Process   = process id Locals? do Block
-  Locals    = "[" Listof<id, ","> "]"
+  Locals    = "[" ListOf<id, ","> "]"
   Block     = Statement* endkw
   Statement = id "=" Exp ";"                            -- assign
             | print Exp ";"                             -- print
             | while Exp do Block                        -- while
             | loop Exp times do Block                   -- for
-            | if Exp then (Block | else Statement_if)   -- if
+            | IfStmt
             | send Exp to id ";"                        -- send
             | receive id from id ";"                    -- receive
-            | commit ';'
-            | back num ';'
-  
+            | commit ";"                                -- commit
+            | back num ";"                              -- back
+  IfStmt    = if Exp then Block else Block              -- else
+            | if Exp then Block else IfStmt             -- elseif
+            | if Exp then Block                         -- if
   Exp       = ("-" | "!") Exp7                          -- unary
             | Exp1 "?" Exp1 ":" Exp                     -- ternary
             | Exp1
@@ -34,11 +36,13 @@ Ekko {
             | id                                        -- id
             | "(" Exp ")"                               -- parens
 
+  process   = "process" ~idchar
   print     = "print" ~idchar
   while     = "while" ~idchar
   loop      = "loop" ~idchar
   times     = "times" ~idchar
   if        = "if" ~idchar
+  then      = "then" ~idchar
   else      = "else" ~idchar
   do        = "do" ~idchar
   endkw     = "end" ~idchar
@@ -46,9 +50,13 @@ Ekko {
   receive   = "receive" ~idchar
   to        = "to" ~idchar
   from      = "from" ~idchar
+  back      = "back" ~idchar
+  commit    = "commit" ~idchar
   true      = "true" ~idchar
   false     = "false" ~idchar
-  keyword   = let | function | while | true | false
+  keyword   = process | print | while | loop | times | if | then | else
+            | do | endkw | send | receive | to | from | back | commit
+            | true | false
   num       = digit+ ("." digit+)? (("E" | "e") ("+" | "-")? digit+)?
   id        = ~keyword letter idchar*
   idchar    = letter | digit | "_"
