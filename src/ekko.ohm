@@ -2,18 +2,18 @@ Ekko {
   Program   = Actor+
   Actor     = actor id Locals? Block
   Locals    = "[" ListOf<id, ","> "]"
-  Block     = "{" Statement+"}"
-  Statement = id "=" Exp ";"                                -- assign
-            | print Exp ";"                                 -- print
+  Block     = "{" Stmt+"}"
+  Stmt      = id "=" Exp ";"                            -- assign
+            | print Exp ";"                             -- print
             | while Exp Block                           -- while
             | loop (Exp times)? Block                   -- for
-            | if Exp Block (else (Statement_if | Block))?     -- if
-            | send Exp to id ";"                           -- send
-            | receive id ";"                               -- receive
-            | back num ";"                                 -- back
-            | forward num ";"                               -- forward
-            | commit ";"                                    -- commit
-            | abort ";"                                     -- abort
+            | if Exp Block (else (Stmt_if | Block))?    -- if
+            | send Exp to id ";"                        -- send
+            | receive id ";"                            -- receive
+            | back num ";"                              -- back
+            | forward num ";"                           -- forward
+            | commit ";"                                -- commit
+            | abort ";"                                 -- abort
   Exp       = ("-" | "!") Exp7                          -- unary
             | Exp1 "?" Exp1 ":" Exp                     -- ternary
             | Exp1
