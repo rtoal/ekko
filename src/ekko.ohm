@@ -2,11 +2,11 @@ Ekko {
   Program   = Actor+
   Actor     = actor id Locals? Block
   Locals    = "[" ListOf<id, ","> "]"
-  Block     = "{" Stmt+"}"
+  Block     = "{" Stmt* "}"
   Stmt      = id "=" Exp ";"                            -- assign
             | print Exp ";"                             -- print
             | while Exp Block                           -- while
-            | loop (Exp times)? Block                   -- for
+            | repeat Exp Block                          -- repeat
             | if Exp Block (else (Stmt_if | Block))?    -- if
             | send Exp to id ";"                        -- send
             | receive id ";"                            -- receive
@@ -36,11 +36,10 @@ Ekko {
             | id                                        -- id
             | "(" Exp ")"                               -- parens
 
-  actor   = "actor" ~idchar
+  actor     = "actor" ~idchar
   print     = "print" ~idchar
   while     = "while" ~idchar
-  loop      = "loop" ~idchar
-  times     = "times" ~idchar
+  repeat    = "repeat" ~idchar
   if        = "if" ~idchar
   else      = "else" ~idchar
   send      = "send" ~idchar
@@ -53,7 +52,7 @@ Ekko {
   true      = "true" ~idchar
   false     = "false" ~idchar
   nil       = "nil" ~idchar
-  keyword   = actor | print | while | loop | times | if | else
+  keyword   = actor | print | while | repeat | if | else
             | send | to | receive | back | forward | commit | abort
             | true | false | nil
   num       = digit+ ("." digit+)? (("E" | "e") ("+" | "-")? digit+)?

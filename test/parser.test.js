@@ -4,6 +4,12 @@ import assert from "node:assert/strict"
 import parse from "../src/parser.js"
 
 const syntaxChecks = [
+  ["short if", "if true { print(1); }"],
+  ["longer if", "if true { print(1); } else { print(1); }"],
+  ["even longer if", "if true { print(1); } else if false { print(1);}"],
+  ["while with empty block", "while true {}"],
+  ["while with one statement block", "while true { x = 1; }"],
+  ["repeat with long block", "repeat 2 { print(1);\nprint(2);print(3); }"],
   ["all numeric literal forms", "print(8 * 89.123);"],
   ["complex expressions", "print(83 * ((((-((((13 / 21)))))))) + 1 - 0);"],
   ["all unary operators", "print (-3); print (!false);"],
