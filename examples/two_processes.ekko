@@ -1,12 +1,12 @@
-process P do
+actor P {
   send 1 to Q;
   print "Hello from P";
   commit
-end
+}
 
-process Q [x] do
+actor Q [x] do
   x = 5;
   receive x from P;
   print "Q received " + x;
   commit
-end
+}

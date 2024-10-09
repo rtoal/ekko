@@ -1,4 +1,4 @@
-process P [x] do
+actor P [x] {
   x = 1;
   x = 5;
   print x;
@@ -7,4 +7,4 @@ process P [x] do
   back 2;     // undoes the increment and the x = 5;
   print x;    // prints 1
   commit;     // writes the print 1 to the global output state
-end
+}

@@ -3,30 +3,30 @@
 Ekko is an experimental language with simple time travel.
 
 ```
-actor P [x, y, z]
+actor P [x, y, z] {
   x := 3;            // (x←3)
   y := 2 * x;        // (x←3)(y←6)
-  loop 3 times do
+  loop 3 times {
     y := y + 1;
     print y;
-  end;               // (x←3)(y←6)(y←7)(↑7)(y←8)(↑8)(y←9)(↑9)
+  }                  // (x←3)(y←6)(y←7)(↑7)(y←8)(↑8)(y←9)(↑9)
   back 3;            // (x←3)(y←6)(y←7)(↑7)(y←8)
-  if true then
+  if true {
     z := y ** 2;
-  end                // (x←3)(y←6)(y←7)(↑7)(y←8)(z←64)
+  }                  // (x←3)(y←6)(y←7)(↑7)(y←8)(z←64)
   send z to Q;       // history not effected
   print z;           // (x←3)(y←6)(y←7)(↑7)(y←8)(z←64)(↑64)
   commit;            // history is cleared now
   y := 100;          // (y←100)
   back 1;            // history effectively cleared
   print y;           // (↑nil)
-end.                 // all work since last commit lost
+}                    // all work since last commit lost
 
-actor Q [a]
+actor Q [a] {
   print 5;                // (↑5)
   receive a else abort;   // if received, history is (↑5)(a←64)
   commit;                 // clears history
-end.
+}
 ```
 
 ## Principles
@@ -35,7 +35,7 @@ Ekko programs are built from a collection of one or more **actors**, which can m
 
 An actor has a name and a history. Actors can move backwards and forwards throughout their own histories, until they **commit** their actions, at which time their actions are written to the global stream and their history is erased.
 
-An actor can only move throughout time in its own (currently linear) history. That is, even if an actor goes back in time, changes to the global stream will _not_ be undone even when viewed from an actor in its own past. In other words, the global state has a fixed, unidirectional time. Messages that have been sent to other processes may not be retracted by the sender; however, a process may go back in time past the point at which it received a message, essentially undoing the receipt.
+An actor can only move throughout time in its own (currently linear) history. That is, even if an actor goes back in time, changes to the global stream will _not_ be undone even when viewed from an actor in its own past. In other words, the global state has a fixed, unidirectional time. Messages that have been sent to other actors may not be retracted by the sender; however, a actor may go back in time past the point at which it received a message, essentially undoing the receipt.
 
 ## Formal Definition
 

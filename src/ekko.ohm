@@ -1,20 +1,19 @@
 Ekko {
-  Program   = Process+
-  Process   = process id Locals? do Block
+  Program   = Actor+
+  Actor     = actor id Locals? Block
   Locals    = "[" ListOf<id, ","> "]"
-  Block     = Statement* endkw
-  Statement = id "=" Exp ";"                            -- assign
-            | print Exp ";"                             -- print
-            | while Exp do Block                        -- while
-            | loop Exp times do Block                   -- for
-            | IfStmt
-            | send Exp to id ";"                        -- send
-            | receive id from id ";"                    -- receive
-            | commit ";"                                -- commit
-            | back num ";"                              -- back
-  IfStmt    = if Exp then Block else Block              -- else
-            | if Exp then Block else IfStmt             -- elseif
-            | if Exp then Block                         -- if
+  Block     = "{" Statement+"}"
+  Statement = id "=" Exp ";"                                -- assign
+            | print Exp ";"                                 -- print
+            | while Exp Block                           -- while
+            | loop (Exp times)? Block                   -- for
+            | if Exp Block (else (Statement_if | Block))?     -- if
+            | send Exp to id ";"                           -- send
+            | receive id ";"                               -- receive
+            | back num ";"                                 -- back
+            | forward num ";"                               -- forward
+            | commit ";"                                    -- commit
+            | abort ";"                                     -- abort
   Exp       = ("-" | "!") Exp7                          -- unary
             | Exp1 "?" Exp1 ":" Exp                     -- ternary
             | Exp1
@@ -33,30 +32,30 @@ Ekko {
   Exp7      = num
             | true
             | false
+            | nil
             | id                                        -- id
             | "(" Exp ")"                               -- parens
 
-  process   = "process" ~idchar
+  actor   = "actor" ~idchar
   print     = "print" ~idchar
   while     = "while" ~idchar
   loop      = "loop" ~idchar
   times     = "times" ~idchar
   if        = "if" ~idchar
-  then      = "then" ~idchar
   else      = "else" ~idchar
-  do        = "do" ~idchar
-  endkw     = "end" ~idchar
   send      = "send" ~idchar
-  receive   = "receive" ~idchar
   to        = "to" ~idchar
-  from      = "from" ~idchar
+  receive   = "receive" ~idchar
   back      = "back" ~idchar
+  forward   = "forward" ~idchar
   commit    = "commit" ~idchar
+  abort     = "abort" ~idchar
   true      = "true" ~idchar
   false     = "false" ~idchar
-  keyword   = process | print | while | loop | times | if | then | else
-            | do | endkw | send | receive | to | from | back | commit
-            | true | false
+  nil       = "nil" ~idchar
+  keyword   = actor | print | while | loop | times | if | else
+            | send | to | receive | back | forward | commit | abort
+            | true | false | nil
   num       = digit+ ("." digit+)? (("E" | "e") ("+" | "-")? digit+)?
   id        = ~keyword letter idchar*
   idchar    = letter | digit | "_"

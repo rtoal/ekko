@@ -17,11 +17,7 @@ const syntaxChecks = [
 ]
 
 const syntaxErrors = [
-  [
-    "non-letter in an identifier",
-    "process P do ab😭c = 2; end",
-    /Expected "="/,
-  ],
+  ["non-letter in an identifier", "actor P { ab😭c = 2; }", /Expected "="/],
   // ["malformed number", "x= 2.", /Line 1, col 6/],
   // ["missing semicolon", "x = 3 y = 1", /Line 1, col 7/],
   // ["a missing right operand", "print(5 -", /Line 1, col 10/],
@@ -36,7 +32,7 @@ const syntaxErrors = [
 describe("The parser", () => {
   for (const [scenario, source] of syntaxChecks) {
     it(`properly specifies ${scenario}`, () => {
-      assert(parse(`process P do\n${source}\nend`).succeeded())
+      assert(parse(`actor P {\n${source}\n}`).succeeded())
     })
   }
   for (const [scenario, source, errorMessagePattern] of syntaxErrors) {

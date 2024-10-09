@@ -1,4 +1,4 @@
-process Greeter do
+actor Greeter {
   print "Hello, world!";
   commit;
-end
+}
